@@ -9,8 +9,7 @@ Spring Boot 2.0 + Spring WebFlux
 * High Test Coverage
 
 
-## API
+## [API](https://github.com/yapp-project/twe_spring_server/blob/master/src/main/resources/TWE%20API%20초기3.yaml)
 
 ## License
-TWE_Spring is released under MIT License
-[MIT License](https://github.com/yapp-project/twe_spring_server/blob/master/LICENSE)
+TWE_Spring is released under [MIT License](https://github.com/yapp-project/twe_spring_server/blob/master/LICENSE)
