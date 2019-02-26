@@ -1,0 +1,180 @@
+swagger: '2.0'
+info:
+  description: API
+  version: 0.0.1
+  title: TWE API DOCUMENTATION
+tags:
+  - name: user
+    description: user
+  - name: article
+    description: user article
+schemes:
+  - https
+  - http
+paths:
+  /login:
+    post:
+      tags:
+        - security
+      summary: Login
+      operationId: login
+      parameters:
+        - name: user
+          in: body
+          description: login
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: login success
+          schema:
+            $ref: '#/definitions/User'
+  '/user/{userIdx}':
+    get:
+      tags:
+        - user
+      summary: Get User
+      description: Get User By idx
+      operationId: getUserByIdx
+      produces:
+        - application/json
+      parameters:
+        - name: userIdx
+          in: path
+          description: user idx to find
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+  /user:
+    post:
+      tags:
+        - user
+      summary: Register User
+      description: 'Add User by Id , pw'
+      operationId: PostUser
+      produces:
+        - application/json
+      parameters:
+        - name: user
+          in: body
+          description: user to register
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/User'
+  '/article/{userIdx}/{articleIdx}':
+    get:
+      tags:
+        - article
+      summary: Get One Article
+      description: Get Article by user idx
+      operationId: getArticleByArticleIdx
+      produces:
+        - application/json
+      parameters:
+        - name: userIdx
+          in: path
+          description: user idx
+          required: true
+          type: integer
+          format: int64
+        - name: articleIdx
+          in: path
+          description: article idx
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: get article
+          schema:
+            $ref: '#/definitions/Article'
+  '/article/{userIdx}':
+    get:
+      tags:
+        - article
+      summary: Get Articles
+      description: Get Article by user idx
+      operationId: getArticleByUserIdx
+      produces:
+        - application/json
+      parameters:
+        - name: userIdx
+          in: path
+          description: user idx
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: get article
+          schema:
+            $ref: '#/definitions/ArrayOfArticles'
+    post:
+      tags:
+        - article
+      summary: Make Article
+      operationId: makeArticle
+      consumes:
+        - multipart/form-data
+      produces:
+        - applicaiton/json
+      parameters:
+        - name: userIdx
+          in: path
+          description: useridx
+          required: true
+          type: integer
+          format: int64
+        - name: file
+          in: formData
+          type: file
+          description: file to upload
+      responses:
+        '201':
+          description: Make Article
+          schema:
+            $ref: '#/definitions/Article'
+definitions:
+  User:
+    type: object
+    required:
+      - id password
+    properties:
+      idx:
+        type: integer
+        format: int64
+      id:
+        type: string
+        format: userId
+      password:
+        type: string
+        format: password
+  Article:
+    type: object
+    required:
+      - content
+    properties:
+      idx:
+        type: integer
+        format: int64
+      userIdx:
+        type: integer
+        format: int64
+      imagePath:
+        type: string
+      content:
+        type: string
+        maxLength: 1000
+  ArrayOfArticles:
+    type: array
+    items:
+      $ref: '#/definitions/Article'
