@@ -28,12 +28,11 @@ public class LoginHandler {
     }
 
     public Mono<ServerResponse> login(ServerRequest request) {
-
         return request.bodyToMono(AuthRequest.class).flatMap(
                 ar -> {
-                    boolean test = ar.getUserName().equals("yapp");
+                    boolean test = ar.getId().equals("yapp");
                     if (!test) {
-                        User u = userService.getUserById(ar.getUserName());
+                        User u = userService.getUserById(ar.getId());
                         if (u == null)
                             return ServerResponse.status(HttpStatus.UNAUTHORIZED).build();
                         if (ar.getPassword().equals(u.getPassword())) {
@@ -43,7 +42,7 @@ public class LoginHandler {
                         return ServerResponse.status(HttpStatus.UNAUTHORIZED).build();
                     }
                     else {
-                        User u = new User(ar.getUserName(),ar.getPassword());
+                        User u = new User(ar.getId(),ar.getPassword());
                         String token = jwtUtil.generateToken(u);
                         return ServerResponse.ok().body(Mono.just(new AuthResponse(token)), AuthResponse.class);
                     }
