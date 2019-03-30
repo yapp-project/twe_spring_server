@@ -111,6 +111,10 @@ paths:
         in: formData
         type: file
         description: file to upload
+      - name : content
+        in : formData
+        type: string
+        description: content
       responses:
         '201':
           description: Make Article
