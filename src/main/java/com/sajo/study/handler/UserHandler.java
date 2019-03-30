@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 import java.net.URI;
 
 import static org.springframework.web.reactive.function.server.ServerResponse.created;
+import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 @Component
 @Slf4j
@@ -41,5 +42,12 @@ public class UserHandler {
                 .flatMap(u -> Mono.just(userService.makeUser(u)))
                 .flatMap(u -> created(URI.create("/user/" + u.getId()))
                         .body(Mono.just(u), User.class));
+    }
+
+
+    public Mono<ServerResponse> updateUser(ServerRequest request){
+        return request.body(BodyExtractors.toMono(User.class))
+                .flatMap(u -> Mono.just(userService.updateUser(u)))
+                .flatMap(u-> ok().body(Mono.just(u),User.class));
     }
 }

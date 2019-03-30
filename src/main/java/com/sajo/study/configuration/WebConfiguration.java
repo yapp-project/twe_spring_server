@@ -22,6 +22,7 @@ public class WebConfiguration implements WebFluxConfigurer {
     public RouterFunction<ServerResponse> userRoute(UserHandler handler,LoginHandler loginHandler) {
         return RouterFunctions.route(GET("/user/{userIdx}").and(accept(APPLICATION_JSON)), handler::getUser)
                 .andRoute(POST("/user").and(accept(APPLICATION_JSON)),handler::makeUser)
+                .andRoute(PUT("/user"),handler::updateUser)
                 .andRoute(POST("/login"),loginHandler::login);
     }
 

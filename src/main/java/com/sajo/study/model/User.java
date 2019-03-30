@@ -1,6 +1,10 @@
 package com.sajo.study.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.sajo.study.json.LocalDateDeSerializer;
+import com.sajo.study.json.LocalDateSerializer;
 import com.sajo.study.security.JWTUtil;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,6 +47,8 @@ public class User implements UserDetails {
     private String password;
 
     @Column
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeSerializer.class)
     private LocalDate age;
 
     @Enumerated(value = EnumType.STRING)
@@ -118,5 +124,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    public void update(User u ){
+        this.job = u.getJob();
+        this.age = u.getAge();
+        this.password = u.getPassword();
+        this.sex = u.getSex();
+        this.articles = u.getArticles();
     }
 }
