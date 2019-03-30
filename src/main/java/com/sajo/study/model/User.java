@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,19 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode
 @ToString
 public class User implements UserDetails {
+
+    public enum JOB{
+        STUDENT,
+        JOBING,
+        JOB,
+        ETC
+    }
+
+    public enum SEX{
+        MALE,
+        FEMALE
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idx;
@@ -30,6 +44,16 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column
+    private LocalDate age;
+
+    @Enumerated(value = EnumType.STRING)
+    private JOB job;
+
+    @Enumerated(value = EnumType.STRING)
+    private SEX sex;
+
+    @Transient
     private List<JWTUtil.Role> roles;
 
     public User(long idx) {
@@ -49,6 +73,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public User(String id, String password, LocalDate age, JOB job, SEX sex) {
+        this.id = id;
+        this.password = password;
+        this.age = age;
+        this.job = job;
+        this.sex = sex;
+    }
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
