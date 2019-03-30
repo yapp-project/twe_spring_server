@@ -7,8 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import javax.crypto.spec.SecretKeySpec;
 import java.io.Serializable;
 import java.util.Base64;
 import java.util.Date;
@@ -63,7 +61,7 @@ public class JWTUtil implements Serializable {
                 .setSubject(username)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
-                .signWith(new SecretKeySpec(secret.getBytes(),"AES"),SignatureAlgorithm.HS512)
+                .signWith(SignatureAlgorithm.HS512,secret.getBytes())
                 .compact();
     }
 
