@@ -51,6 +51,7 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private SEX sex;
 
+    @JsonIgnore
     @Transient
     private List<JWTUtil.Role> roles;
 
@@ -88,26 +89,31 @@ public class User implements UserDetails {
         return Collections.emptyList();
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return id;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
