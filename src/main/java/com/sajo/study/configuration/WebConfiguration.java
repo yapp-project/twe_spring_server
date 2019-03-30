@@ -4,7 +4,9 @@ import com.sajo.study.handler.ArticleHandler;
 import com.sajo.study.handler.UserHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.EnableWebFlux;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -14,7 +16,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 
 @Configuration
 @EnableWebFlux
-public class WebConfiguration {
+public class WebConfiguration implements WebFluxConfigurer {
     @Bean
     public RouterFunction<ServerResponse> userRoute(UserHandler handler) {
         return RouterFunctions.route(GET("/user/{userIdx}").and(accept(APPLICATION_JSON)), handler::getUser)
@@ -28,6 +30,13 @@ public class WebConfiguration {
                 .andRoute(POST("/article").and(accept(APPLICATION_JSON)),handler::makeArticle);
     }
 
+
+
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/*").allowedOrigins("*");
+    }
 
 
 }
