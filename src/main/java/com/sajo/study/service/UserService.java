@@ -25,4 +25,6 @@ public class UserService {
         return userRepository.save(u);
     }
 
+    public User getUserById(String id){return userRepository.findById(id);}
+
 }

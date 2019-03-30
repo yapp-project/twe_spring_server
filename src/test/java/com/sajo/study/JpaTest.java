@@ -54,12 +54,19 @@ public class JpaTest {
     }
 
     @Test
-    public void 글리스트받아오기() throws Exception {
+    public void 글리스트받아오기(){
         User u = new User("test","test");
         Article a  = new Article(u,"test2","test1");
         userService.makeUser(u);
         articleService.makeArticle(a);
         List<Article> articleList = articleService.getArticleByUserIdx(1);
         assertEquals(articleList, Lists.list(a));
+    }
+
+    @Test
+    public void 유저받아오기테스트(){
+        User u = new User("test", "haha");
+     userService.makeUser(u);
+    assertEquals(userService.getUserById("test"),u);
     }
 }

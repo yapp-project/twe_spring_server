@@ -1,6 +1,7 @@
 package com.sajo.study.configuration;
 
 import com.sajo.study.handler.ArticleHandler;
+import com.sajo.study.handler.LoginHandler;
 import com.sajo.study.handler.UserHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,10 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 @EnableWebFlux
 public class WebConfiguration implements WebFluxConfigurer {
     @Bean
-    public RouterFunction<ServerResponse> userRoute(UserHandler handler) {
+    public RouterFunction<ServerResponse> userRoute(UserHandler handler,LoginHandler loginHandler) {
         return RouterFunctions.route(GET("/user/{userIdx}").and(accept(APPLICATION_JSON)), handler::getUser)
-                .andRoute(POST("/user").and(accept(APPLICATION_JSON)),handler::makeUser);
+                .andRoute(POST("/user").and(accept(APPLICATION_JSON)),handler::makeUser)
+                .andRoute(POST("/login"),loginHandler::login);
     }
 
     @Bean
@@ -29,6 +31,7 @@ public class WebConfiguration implements WebFluxConfigurer {
                 .andRoute(GET("/article/{userIdx}/{articleIdx}").and(accept(APPLICATION_JSON)),handler::getArticle)
                 .andRoute(POST("/article").and(accept(APPLICATION_JSON)),handler::makeArticle);
     }
+
 
 
 
