@@ -33,6 +33,11 @@ public class Article {
     @Column(length = 1000)
     private String content;
 
+    public Article(User user, String content) {
+        this.user = user;
+        this.content = content;
+    }
+
     @JsonCreator
     public Article(User user, String imagePath, String content) {
         this.user = user;
