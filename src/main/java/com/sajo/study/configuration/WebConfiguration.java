@@ -29,7 +29,7 @@ public class WebConfiguration implements WebFluxConfigurer {
     public RouterFunction<ServerResponse> articleRoute(ArticleHandler handler){
         return RouterFunctions.route(GET("/article/{userIdx}").and(accept(APPLICATION_JSON)),handler::getArticleByUser)
                 .andRoute(GET("/article/{userIdx}/{articleIdx}").and(accept(APPLICATION_JSON)),handler::getArticle)
-                .andRoute(POST("/article").and(accept(APPLICATION_JSON)),handler::makeArticle);
+                .andRoute(POST("/article/{userIdx}").and(accept(APPLICATION_JSON)),handler::makeArticle);
     }
 
 
