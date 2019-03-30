@@ -50,6 +50,5 @@ public class ArticleHandler {
                 })
                 .flatMap(a -> created(URI.create("/article/" + a.getUser().getIdx() + "/" + a.getIdx()))
                         .body(Mono.just(a), Article.class));
-
     }
 }
